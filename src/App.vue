@@ -1,13 +1,17 @@
 <template>
-  <ul>
-    <!-- <li v-for="resource in storedResources">
-          <p></p>
-      </li> -->
-  </ul>
+  <the-header title="Remember Me"> </the-header>
+  <stored-resources :resources="storedResources"></stored-resources>
 </template>
 
 <script>
+import StoredResources from './components/learning-resources/StoredResources';
+import TheHeader from './components/layout/TheHeader';
+
 export default {
+  components: {
+    StoredResources,
+    TheHeader
+  },
   data() {
     return {
       storedResources: [
@@ -29,4 +33,18 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+</style>
