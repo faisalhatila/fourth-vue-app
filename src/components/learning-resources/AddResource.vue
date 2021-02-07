@@ -1,4 +1,16 @@
 <template>
+  <base-dialog v-if="inputIsInvalid" title="Invalid Input" @close="confirmError">
+    <template #default>
+      <p>Unfortunately, one input value is invalid.</p>
+      <p>
+        Please check all inputs and make sure you enter atleast a few characters
+        into each input field.
+      </p></template
+    >
+    <template #actions
+      ><base-button @click="confirmError">Okay</base-button></template
+    >
+  </base-dialog>
   <base-card>
     <form @submit.prevent="submitData">
       <div class="form-control">
@@ -7,11 +19,16 @@
       </div>
       <div class="form-control">
         <label for="description">Description</label>
-        <textarea id="description" name="description" rows="3" ref="descInput"></textarea>
+        <textarea
+          id="description"
+          name="description"
+          rows="3"
+          ref="descInput"
+        ></textarea>
       </div>
       <div class="form-control">
         <label for="link">Link</label>
-        <input id="link" name="link" type="url" ref="linkInput"/>
+        <input id="link" name="link" type="url" ref="linkInput" />
       </div>
       <div>
         <base-button type="submit">Add Resource</base-button>
@@ -22,15 +39,31 @@
 
 <script>
 export default {
-    inject:['addResource'],
-    methods:{
-        submitData(){
-            const enteredTitle = this.$refs.titleInput.value;
-            const enteredDescription = this.$refs.descInput.value;
-            const enteredUrl = this.$refs.linkInput.value;
-            this.addResource(enteredTitle,enteredDescription,enteredUrl)
-        }
+  inject: ['addResource'],
+  data() {
+    return {
+      inputIsInvalid: false
+    };
+  },
+  methods: {
+    submitData() {
+      const enteredTitle = this.$refs.titleInput.value;
+      const enteredDescription = this.$refs.descInput.value;
+      const enteredUrl = this.$refs.linkInput.value;
+      if (
+        enteredTitle.trim() === '' ||
+        enteredDescription.trim() === '' ||
+        enteredUrl.trim() === ''
+      ) {
+        this.inputIsInvalid = true;
+        return;
+      }
+      this.addResource(enteredTitle, enteredDescription, enteredUrl);
+    },
+    confirmError() {
+      this.inputIsInvalid = false;
     }
+  }
 };
 </script>
 
